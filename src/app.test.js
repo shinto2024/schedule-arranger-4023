@@ -345,3 +345,5 @@ describe("/schedules/:scheduleId/delete", () => {
     expect(schedule).toBeNull();
   });
 });
+
+// TODO settingsのテストコードを書く
