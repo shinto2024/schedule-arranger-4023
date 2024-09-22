@@ -32,7 +32,7 @@ function layout(c, title, body) {
                 ${user && html`
                     <li class="nav-item">
                       
-                      <a class="nav-link" href="/settings">
+                      <a class="nav-link" href="/settings?from=${c.req.path}">
                         <i class="bi bi-gear"></i>
                         設定
                       </a>

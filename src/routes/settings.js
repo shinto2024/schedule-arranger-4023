@@ -46,29 +46,42 @@ app.post(
       throw new HTTPException(400, { message: "入力された情報が不十分または正しくありません" });
     }
 
-    return c.redirect("/"); // TODO 元いたページにリダイレクトするようにする
+    // オープンリダイレクタ脆弱性対策
+    const from = c.req.query("from");
+    if (from && from.startsWith("/")) {
+      return c.redirect(from);
+    } else {
+      return c.redirect(("/"));
+    }
   }
 );
 
 app.get(
-  "/", ensureAuthenticated(), (c) => {
+  "/", ensureAuthenticated(), async (c) => {
+    const { user } = c.get("session") ?? {};
+    // 現在のカラーモードを取得
+    const setting = await prisma.setting.findUnique({
+      where: { userId: user.id },
+    });
+    const beforeColorMode = setting?.colorMode || "light"; // デフォルトはlight
+
     return c.html(
       layout(
         c,
         "設定",
         html`
-          <form method="post" action="/settings" class="my-3">
+          <form method="post" action="/settings?from=${c.req.query("from")}" class="my-3">
               <h3 class="my-4">設定</h3>
               <div class="mb-3">
                   <label class="form-label">カラーモード</label>
                   <div class="form-check mb-1">
-                      <input type="radio" name="colorMode" id="colorModeLight" value="light" class="form-check-input">
+                      <input type="radio" name="colorMode" id="colorModeLight" value="light" class="form-check-input" ${beforeColorMode === 'light' ? "checked" : ""}>
                       <label for="colorModeLight">
                           ライト (light)
                       </label>
                   </div>
                   <div class="form-check">
-                      <input type="radio" name="colorMode" id="colorModeDark" value="dark" class="form-check-input">
+                      <input type="radio" name="colorMode" id="colorModeDark" value="dark" class="form-check-input" ${beforeColorMode === 'dark' ? "checked" : ""}>
                       <label for="colorModeDark">
                           ダーク (dark)
                       </label>
