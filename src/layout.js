@@ -29,6 +29,16 @@ function layout(c, title, body) {
             </button>
             <div id="navbarResponsive" class="collapse navbar-collapse">
               <ul class="navbar-nav ms-auto">
+                ${user && html`
+                    <li class="nav-item">
+                      
+                      <a class="nav-link" href="/settings">
+                        <i class="bi bi-gear"></i>
+                        設定
+                      </a>
+                    </li>`
+                }
+
                 ${user
                   ? html`
                       <li class="nav-item">

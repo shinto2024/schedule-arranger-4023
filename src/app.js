@@ -23,6 +23,7 @@ const logoutRouter = require("./routes/logout");
 const scheduleRouter = require("./routes/schedules");
 const availabilitiesRouter = require("./routes/availabilities");
 const commentsRouter = require("./routes/comments");
+const settingsRouter = require("./routes/settings");
 
 const app = new Hono();
 
@@ -98,6 +99,7 @@ app.route("/logout", logoutRouter);
 app.route("/schedules", scheduleRouter);
 app.route("/schedules", availabilitiesRouter);
 app.route("/schedules", commentsRouter);
+app.route("/settings", settingsRouter);
 
 // 404 Not Found
 app.notFound((c) => {
