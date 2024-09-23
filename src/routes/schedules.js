@@ -54,9 +54,9 @@ function parseCandidateNames(candidatesStr) {
     .filter((s) => s !== "");
 }
 
-app.get("/new", ensureAuthenticated(), (c) => {
+app.get("/new", ensureAuthenticated(), async (c) => {
   return c.html(
-    layout(
+    await layout(
       c,
       "予定の作成",
       html`
@@ -187,7 +187,7 @@ app.get("/:scheduleId", ensureAuthenticated(), scheduleIdValidator, async (c) =>
   const buttonStyles = ["btn-danger", "btn-secondary", "btn-success"];
 
   return c.html(
-    layout(
+    await layout(
       c,
       `予定: ${schedule.scheduleName}`,
       html`
@@ -298,7 +298,7 @@ app.get("/:scheduleId/edit", ensureAuthenticated(), scheduleIdValidator, async (
   });
 
   return c.html(
-    layout(
+    await layout(
       c,
       `予定の編集: ${schedule.scheduleName}`,
       html`
