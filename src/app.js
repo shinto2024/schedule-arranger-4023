@@ -102,9 +102,9 @@ app.route("/schedules", commentsRouter);
 app.route("/settings", settingsRouter);
 
 // 404 Not Found
-app.notFound((c) => {
+app.notFound(async (c) => {
   return c.html(
-    layout(
+    await layout(
       c,
       "Not Found",
       html`
@@ -117,12 +117,12 @@ app.notFound((c) => {
 });
 
 // エラーハンドリング
-app.onError((error, c) => {
+app.onError(async (error, c) => {
   console.error(error);
   const statusCode = error instanceof HTTPException ? error.status : 500;
   const { NODE_ENV } = env(c);
   return c.html(
-    layout(
+    await layout(
       c,
       "Error",
       html`

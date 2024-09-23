@@ -66,7 +66,7 @@ app.get(
     const beforeColorMode = setting?.colorMode || "light"; // デフォルトはlight
 
     return c.html(
-      layout(
+      await layout(
         c,
         "設定",
         html`
